@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Data;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
@@ -134,6 +135,21 @@ public class XHelper
 
     public static string GetDateStringFromUTC(ulong unixTimeStamp)
     {
-        return UnixTimeStampToDateTime(unixTimeStamp).ToString("dd.MM.yyyy");
+        return UnixTimeStampToDateTime(unixTimeStamp).ToString("dd.MM.yyyy HH:mm:ss");
+    }
+
+    public static bool IsControllerValid(CCSPlayerController? controller)
+    {
+        if (controller == null) return false;
+        if (!controller.IsValid) return false;
+        if (controller.IsBot) return false;
+        if (controller.Connected != PlayerConnectedState.PlayerConnected) return false;
+        return true;
+    }
+
+    public static ControllerParams GetControllerParams(CCSPlayerController controller)
+    {
+        var res = new ControllerParams(controller.PlayerName, controller.SteamID.ToString(), controller.IpAddress);
+        return res;
     }
 }
