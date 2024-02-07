@@ -3,10 +3,12 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Cvars;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 
-namespace Iks_WarnSystem;
+namespace Iks_Admin;
 
 public class XHelper
 {
@@ -21,6 +23,16 @@ public class XHelper
         }
         args.RemoveAt(0);
         return args;
+    }
+
+    public static string RemoveDangerSimbols(string str)
+    {
+        str = str.Replace("'", "");
+        str = str.Replace("\"", "");
+        str = str.Replace(";", "");
+        str = str.Replace("`", "");
+
+        return str;
     }
 
     public static List<CCSPlayerController> GetOnlinePlayers()
@@ -152,4 +164,5 @@ public class XHelper
         var res = new ControllerParams(controller.PlayerName, controller.SteamID.ToString(), controller.IpAddress);
         return res;
     }
+
 }
