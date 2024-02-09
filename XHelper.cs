@@ -12,6 +12,13 @@ namespace Iks_Admin;
 
 public class XHelper
 {
+    public static string EscapeString(string str)
+    {
+        str = str.Replace("\"", @"\""");
+        str = str.Replace("'", @"\'");
+
+        return str;
+    }
     public static List<string> GetArgsFromCommandLine(string commandLine)
     {
         List<string> args = new List<string>();
