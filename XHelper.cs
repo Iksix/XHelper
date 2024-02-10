@@ -1,4 +1,6 @@
-﻿using System.Data;
+using System.Data;
+using System.Net;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using CounterStrikeSharp.API;
@@ -8,10 +10,22 @@ using CounterStrikeSharp.API.Modules.Cvars;
 using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 
-namespace Iks_Admin;
+namespace Iks_SessionServer;
 
 public class XHelper
 {
+    public static string GetServerIp()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+        return "";
+    }
     /// <summary>
     /// Checks if the string is an IP address
     /// </summary>
@@ -129,11 +143,6 @@ public class XHelper
             }
         }
         return str;
-    }
-
-    public static string GetServerIp()
-    {
-        return ConVar.Find("ip").StringValue;
     }
     public static string GetServerPort()
     {
