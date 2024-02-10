@@ -69,42 +69,19 @@ public class XHelper
     /// <summary>
     /// Getting player by name, #uid, #sid64. For Uid and Sid You need add # at the start Like: #20
     /// </summary>
-    public static CCSPlayerController? GetPlayerFromArg(string identity)
+   public static CCSPlayerController? GetPlayerFromArg(string identity)
     {
+        var players = XHelper.GetOnlinePlayers();
         CCSPlayerController? player = null;
         if (identity.StartsWith("#"))
         {
-            identity = identity.Replace("#", "");
-            if (identity.Length < 17)
-            {
-                int uid;
-                if (Int32.TryParse(identity, out uid))
-                {
-                    foreach (var p in GetOnlinePlayers())
-                    {
-                        if (!p.IsBot && p.IsValid)
-                        {
-                            if (p.UserId == uid)
-                            {
-                                return p;
-                            }
-                        }
-                    }
-                }
-            }
+            player = players.FirstOrDefault(u => u.SteamID.ToString() == identity.Replace("#", ""));
 
-            if (identity.Length == 17)
-            {
-                ulong sid;
-                if (UInt64.TryParse(identity, out sid))
-                {
-                    if (Utilities.GetPlayerFromSteamId(sid) != null)
-                    {
-                        player = Utilities.GetPlayerFromSteamId(sid);
-                        return player;
-                    }
-                }
-            }
+            if (player != null) return player;
+
+            player = players.FirstOrDefault(u => u.UserId.ToString() == identity.Replace("#", ""));
+
+            if (player != null) return player;
         }
         if (!identity.StartsWith("#"))
             return GetOnlinePlayers().FirstOrDefault(u => u.PlayerName.Contains(identity));
