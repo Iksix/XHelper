@@ -12,6 +12,22 @@ namespace Iks_Admin;
 
 public class XHelper
 {
+    /// <summary>
+    /// Checks if the string is an IP address
+    /// </summary>
+    private static bool IsIPAddress(string ipAddress)
+    {
+      bool isIPAddres = false;
+ 
+      try
+      {
+        IPAddress address;
+        // Определяем является ли строка ip-адресом
+        isIPAddres = IPAddress.TryParse(ipAddress, out address);
+      }
+      catch (Exception e) { }
+      return isIPAddres;
+    }
     public static string EscapeString(string str)
     {
         str = str.Replace("\"", @"\""");
