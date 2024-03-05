@@ -14,6 +14,22 @@ namespace Iks_SessionServer;
 
 public class XHelper
 {
+    /// <summary>
+    /// Print to center html без утечек (Спасибо за инфу CYBERC4T)
+    /// </summary>
+    public void PrintHtml(CCSPlayerController player, string hudContent) // thn for deafps
+    {
+        var @event = new EventShowSurvivalRespawnStatus(false)
+        {
+            LocToken = hudContent,
+            Duration = 5,
+            Userid = player
+        };
+        @event.FireEvent(false);
+
+        @event = null;
+    }
+    
     public static string GetServerIp()
     {
         var host = Dns.GetHostEntry(Dns.GetHostName());
